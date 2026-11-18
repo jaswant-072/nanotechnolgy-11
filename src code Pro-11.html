@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practicum 11 - Nanotech Lab Order & Form Validation</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f8fafc; color: #1e293b; }
+
+    header { background: #0f172a; color: #fff; text-align: center; padding: 1.1rem; font-size: 1.4rem; font-weight: bold; letter-spacing: 0.5px; }
+    header span { display: block; font-size: 0.85rem; font-weight: normal; color: #38bdf8; margin-top: 0.25rem; }
+
+    .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; max-width: 1000px; margin: 1.5rem auto; padding: 0 1rem; text-align: center; }
+    .product-card { background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0.75rem; box-shadow: 0 2px 4px rgba(0,0,0,0.06); }
+    .product-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 4px; margin-bottom: 0.5rem; }
+    .product-card p { font-weight: bold; font-size: 0.92rem; color: #0f172a; }
+
+    .order-box { max-width: 620px; margin: 1rem auto 2rem; background: #fff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .order-box h2 { text-align: center; color: #0284c7; margin-bottom: 1rem; font-size: 1.45rem; }
+
+    .form-group { margin-bottom: 0.9rem; }
+    label { display: block; font-weight: bold; color: #0369a1; margin-bottom: 0.3rem; font-size: 0.92rem; }
+    input[type="number"], input[type="text"], input[type="email"] {
+      width: 100%; padding: 0.55rem; border: 1px solid #94a3b8; border-radius: 4px; font-size: 0.95rem;
+    }
+    input.invalid { border-color: #dc2626; background: #fef2f2; }
+    .error { color: #dc2626; font-size: 0.82rem; display: block; margin-top: 0.2rem; min-height: 1rem; }
+
+    .btn-submit { display: block; width: 220px; margin: 1rem auto; background: #0284c7; color: #fff; border: none; padding: 0.7rem; border-radius: 5px; font-size: 1rem; font-weight: bold; cursor: pointer; }
+    .btn-submit:hover { background: #0369a1; }
+
+    .bill-section { border-top: 2px solid #0284c7; margin-top: 1.25rem; padding-top: 1rem; text-align: center; }
+    .bill-section h3 { color: #16a34a; font-size: 1.25rem; margin-bottom: 0.75rem; }
+    .total-row { display: inline-flex; align-items: center; gap: 1rem; font-size: 1.3rem; font-weight: bold; }
+    .total-label { background: #16a34a; color: #fff; padding: 0.45rem 2.2rem; border-radius: 4px; }
+    .total-value { color: #dc2626; font-size: 1.45rem; }
+
+    @media (max-width: 768px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .product-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    NANOTECH HEALTHCARE &amp; ENERGY LAB STORE
+    <span>Practicum No. 11: Form with Validation | JASWANT D (URK26CS1188)</span>
+  </header>
+
+  <section class="product-grid">
+    <div class="product-card">
+      <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=400&q=80" alt="Lipid Nanoparticles">
+      <p>Lipid Drug Carrier – Rs. 300</p>
+    </div>
+    <div class="product-card">
+      <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=400&q=80" alt="Quantum Dot Solar">
+      <p>Quantum Dot Cell – Rs. 200</p>
+    </div>
+    <div class="product-card">
+      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80" alt="Graphene Electrode">
+      <p>Graphene Battery Kit – Rs. 250</p>
+    </div>
+    <div class="product-card">
+      <img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=400&q=80" alt="Gold Nanosensor">
+      <p>Gold Biosensor Strip – Rs. 350</p>
+    </div>
+  </section>
+
+  <main class="order-box">
+    <h2>Order Nanotech Kits</h2>
+    <form id="orderForm" novalidate>
+      <div class="form-group">
+        <label for="labEmail">Researcher Institutional Email</label>
+        <input type="email" id="labEmail" placeholder="researcher@karunya.edu.in" required>
+        <span class="error" id="emailError"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="qty1">Lipid Drug Carrier (Quantity)</label>
+        <input type="number" id="qty1" min="0" max="50" value="2">
+        <span class="error" id="err1"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="qty2">Quantum Dot Cell (Quantity)</label>
+        <input type="number" id="qty2" min="0" max="50" value="1">
+        <span class="error" id="err2"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="qty3">Graphene Battery Kit (Quantity)</label>
+        <input type="number" id="qty3" min="0" max="50" value="2">
+        <span class="error" id="err3"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="qty4">Gold Biosensor Strip (Quantity)</label>
+        <input type="number" id="qty4" min="0" max="50" value="1">
+        <span class="error" id="err4"></span>
+      </div>
+
+      <button type="button" id="placeOrderBtn" class="btn-submit">Place Order</button>
+    </form>
+
+    <div class="bill-section">
+      <h3 id="billHeading">Purchase Order Bill!!</h3>
+      <div class="total-row">
+        <div class="total-label">Total Price</div>
+        <div class="total-value" id="totalPrice">Rs. 1650</div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const emailInput = document.getElementById("labEmail");
+    const emailError = document.getElementById("emailError");
+    const placeOrderBtn = document.getElementById("placeOrderBtn");
+    const totalPriceEl = document.getElementById("totalPrice");
+    const billHeading = document.getElementById("billHeading");
+
+    const items = [
+      { input: document.getElementById("qty1"), err: document.getElementById("err1"), price: 300 },
+      { input: document.getElementById("qty2"), err: document.getElementById("err2"), price: 200 },
+      { input: document.getElementById("qty3"), err: document.getElementById("err3"), price: 250 },
+      { input: document.getElementById("qty4"), err: document.getElementById("err4"), price: 350 }
+    ];
+
+    function validateEmail() {
+      const val = emailInput.value.trim();
+      const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!pattern.test(val)) {
+        emailError.textContent = "Please enter a valid institutional email address.";
+        emailInput.classList.add("invalid");
+        return false;
+      }
+      emailError.textContent = "";
+      emailInput.classList.remove("invalid");
+      return true;
+    }
+
+    function validateQty(item) {
+      const raw = item.input.value.trim();
+      const num = Number(raw);
+      if (raw === "" || isNaN(num) || num < 0 || num > 50 || !Number.isInteger(num)) {
+        item.err.textContent = "Enter a valid whole number between 0 and 50.";
+        item.input.classList.add("invalid");
+        return null;
+      }
+      item.err.textContent = "";
+      item.input.classList.remove("invalid");
+      return num;
+    }
+
+    emailInput.addEventListener("input", validateEmail);
+    items.forEach(item => item.input.addEventListener("input", () => validateQty(item)));
+
+    placeOrderBtn.addEventListener("click", () => {
+      const isEmailValid = validateEmail();
+      let grandTotal = 0;
+      let allQuantitiesValid = true;
+
+      items.forEach(item => {
+        const validNum = validateQty(item);
+        if (validNum === null) {
+          allQuantitiesValid = false;
+        } else {
+          grandTotal += validNum * item.price;
+        }
+      });
+
+      if (!isEmailValid || !allQuantitiesValid) {
+        billHeading.textContent = "Fix validation errors above!";
+        billHeading.style.color = "#dc2626";
+        totalPriceEl.textContent = "Rs. 0";
+        return;
+      }
+
+      if (grandTotal === 0) {
+        billHeading.textContent = "Select at least 1 kit to order!";
+        billHeading.style.color = "#dc2626";
+        totalPriceEl.textContent = "Rs. 0";
+        return;
+      }
+
+      billHeading.textContent = "Purchase Order Bill!!";
+      billHeading.style.color = "#16a34a";
+      totalPriceEl.textContent = "Rs. " + grandTotal;
+    });
+  </script>
+</body>
+</html>
